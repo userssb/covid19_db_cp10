@@ -64,7 +64,7 @@ const authToken = (request, response, next) => {
 
 //Get all states API-2
 app.get("/states/", authToken, async (request, response) => {
-  const getStatesQuery = `select * from state order by state_id`;
+  const getStatesQuery = `select state_id as stateId, state_name as stateName, population from state order by state_id`;
   const statesArray = await db.all(getStatesQuery);
   response.send(statesArray);
 });
@@ -72,7 +72,7 @@ app.get("/states/", authToken, async (request, response) => {
 //get state API-3
 app.get("/states/:stateId/", authToken, async (request, response) => {
   const { stateId } = request.params;
-  const getStateQuery = `select * from state where state_id=${stateId};`;
+  const getStateQuery = `select state_id as stateId, state_name as stateName, population from state where state_id=${stateId};`;
   const res = await db.get(getStateQuery);
   response.send(res);
 });
@@ -89,7 +89,7 @@ app.post("/districts/", authToken, async (request, response) => {
 //get district API-5
 app.get("/districts/:districtId/", authToken, async (request, response) => {
   const { districtId } = request.params;
-  const getDistrictQuery = `select * from district where district_id=${districtId};`;
+  const getDistrictQuery = `select district_id as districtId, district_name as districtName, state_id as stateId, cases, cured, active, deaths  from district where district_id=${districtId};`;
   const res = await db.get(getDistrictQuery);
   response.send(res);
 });
